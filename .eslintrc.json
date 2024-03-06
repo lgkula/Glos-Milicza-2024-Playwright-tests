@@ -1,0 +1,32 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:playwright/recommended"
+    ],
+    "plugins": ["@typescript-eslint"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": ["./tsconfig.json"]
+    },
+    "root": true,
+    "rules": {
+        "@typescript-eslint/await-thenable": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-unused-vars": "warn",
+        "playwright/no-conditional-in-test": "off",
+        "prefer-const": "warn"
+    },
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "settings": {
+        "playwright": {
+            "additionalAssertFunctionNames": ["assertCustomCondition"]
+        }
+    }
+}

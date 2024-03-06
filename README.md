@@ -1,0 +1,2 @@
+# Playwright template Kruk project
+
