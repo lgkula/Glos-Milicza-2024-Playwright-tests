@@ -1,0 +1,211 @@
+/* eslint-disable playwright/expect-expect */
+/* eslint-disable playwright/no-conditional-expect */
+import { test, expect } from '@playwright/test';
+import { MainPage } from '../pages/main.page';
+import { articles, pinedArticle } from '../test-data/articles.data';
+import { ArticlePage } from '../pages/article.page';
+import { NewsPage } from '../pages/news.page';
+
+test.describe('Smoke tests', () => {
+    test('Visibility elements on main page test', async ({page}) => {
+        const mainPage = new MainPage(page);
+        const articlePage = new ArticlePage(page);
+        const newsPage = new NewsPage(page);
+
+        console.log(`Start test on ${process.env.ENV} environment`);
+
+        await test.step('Run app - open main page', async () => {
+            await mainPage.openMainPage(page);
+            await expect(page, 'Check page title').toHaveTitle(mainPage.pageTitle);
+
+            await expect(mainPage.topBarComponent.logoImgLocator,'Check that logo is visible').toBeVisible();
+            await expect(mainPage.topBarComponent.subtitleHeaderLocator,'Check that subtitle header is visible').toBeVisible();
+            await expect(mainPage.topBarComponent.subtitleHeaderLocator,'Check that subtitle header has correct text').toHaveText(mainPage.topBarComponent.subtitleHeaderText);
+            await expect(mainPage.topBarComponent.hotNewsHeaderLocator,'Check that hot news header is visible').toBeVisible();
+            await expect(mainPage.topBarComponent.newsMainMenuLocator,'Check that news main menu is visible').toBeVisible();
+            await expect(mainPage.topBarComponent.sportMainMenuLocator,'Check that sport main menu is visible').toBeVisible();
+            await expect(mainPage.topBarComponent.peopleMainMenuLocator,'Check that people main menu is visible').toBeVisible();
+            await expect(mainPage.rightBarComponent.firstPageImgLocator,'Check that first page image is visible').toBeVisible();
+            await expect(mainPage.pinedArticleContainerLocator).toBeVisible();
+        });
+
+        await test.step('Check pinned article', async () => {
+            await expect(mainPage.pinedArticleImgLocator).toBeVisible();
+            await expect(mainPage.pinedArticleHeaderLocator).toBeVisible();
+            await expect(mainPage.pinedArticleHeader1Locator).toBeVisible();
+            await expect(mainPage.pinedArticleSubHeaderLocator).toBeVisible();
+            await expect(mainPage.pinedArticleButtonLocator).toBeVisible();
+
+            await expect(mainPage.pinedArticleHeaderLocator,'Check pined article header').toHaveText(pinedArticle.title);
+            await expect(mainPage.pinedArticleSubHeaderLocator,'Check pined article subtitle').toHaveText(pinedArticle.subTitle);
+            
+        });
+        
+        await test.step('Check article thumbnails visibility', async () => {
+            await expect(
+                mainPage.articlesContainerLocator,
+                'Check that container for articles thumbnails is visible',
+            ).toBeVisible();
+            await expect(
+                mainPage.firstArticlesContainerLocator,
+                'Check that article thumbnail is visible',
+            ).toBeVisible();
+            await expect(
+                mainPage.secondArticlesContainerLocator,
+                'Check that article thumbnail is visible',
+            ).toBeVisible();
+
+            for(let i = 0; i < 29; i++) {
+                await expect(
+                    mainPage.articlesThumbnailsLocator.nth(i),
+                    'Check that article thumbnail is visible',
+                ).toBeVisible();
+            }
+        });
+
+        await test.step('Check first article thumbnail data', async () => {
+            await expect(
+                mainPage.firstArticlesContainerLocator,
+                'Check that first article thumbnail is visible',
+            ).toBeVisible();
+        
+        await expect(mainPage.firstArticlesContainerLocator.locator('a').nth(1), 'Check that first article thumbnail title').toHaveText(articles[0].title);
+
+        });
+        
+        await test.step('Display pined article', async () => {
+            await mainPage.pinedArticleButtonLocator.click();
+            await expect(page, 'Check page title').toHaveTitle(
+                pinedArticle.title + articlePage.pageTitleSuffix,
+            );
+            await expect(page).toHaveURL(process.env.BASE_URL + pinedArticle.link);
+            await expect(
+                articlePage.breadcrumbsContainerLocator,
+                'Check that breadcrumbs are visible',
+            ).toBeVisible();
+            await expect(articlePage.articleHeaderLocator,'Check that article header is visible').toBeVisible();
+            await expect(articlePage.articleHeaderLocator,'Check that article header is correct').toHaveText(pinedArticle.title);
+            
+            await articlePage.mainPageBreadcrumbsContainerLocator.click();
+            await expect(page, 'Check that breadcrumbs redirect to main page').toHaveTitle(
+                mainPage.pageTitle,
+            );
+
+             await mainPage.pinedArticleImgLocator.click();
+             await expect(page, 'Check page title').toHaveTitle(
+                 pinedArticle.title + articlePage.pageTitleSuffix,
+             );
+             await articlePage.topBarComponent.logoImgLocator.click();
+             await expect(
+                 page,
+                 'Check that logo redirect to main page',
+             ).toHaveTitle(mainPage.pageTitle);
+
+             await mainPage.pinedArticleHeader1Locator.click();
+             await expect(page, 'Check page title').toHaveTitle(
+                 pinedArticle.title + articlePage.pageTitleSuffix,
+             );
+            await page.goBack();
+            await expect(
+                page,
+                'Check redirect to main page',
+            ).toHaveTitle(mainPage.pageTitle);
+             
+            await mainPage.pinedArticleSubHeaderLocator.click();
+            await expect(page, 'Check page title').toHaveTitle(mainPage.pageTitle,
+             );
+            
+            
+            await mainPage.pinedArticleButtonLocator.click();
+            await expect(page, 'Check page title').toHaveTitle(
+                 pinedArticle.title + articlePage.pageTitleSuffix,
+             );
+            await page.goBack();
+            await expect(
+                page,
+                'Check redirect to main page',
+            ).toHaveTitle(mainPage.pageTitle);
+
+        });
+
+        await test.step('Display first article', async () => {
+             await mainPage.firstArticlesContainerLocator.click();
+             await expect(page, 'Check page title').toHaveTitle(
+                 articles[0].title + articlePage.pageTitleSuffix,
+             );
+             await expect(page).toHaveURL(
+                 process.env.BASE_URL + articles[0].link,
+             );
+             await expect(
+                 articlePage.articleHeaderLocator,
+                 'Check that article header is correct',
+             ).toHaveText(articles[0].title);
+
+             await articlePage.topBarComponent.newsMainMenuLocator.click();
+             await expect(
+                 page,
+                 'Check that news main menu redirect to news page',
+             ).toHaveTitle(newsPage.pageTitle);
+
+        });
+
+
+    });
+
+    test('Open directly news page', async ({ page }) => {
+        const newsPage = new NewsPage(page);
+        const articlePage = new ArticlePage(page);
+
+        await newsPage.openNewsPage(page);
+        await expect(page, 'Check page title').toHaveTitle(
+            newsPage.pageTitle,
+        );
+        
+        await expect(
+            newsPage.firstArticlesContainerLocator,
+            'Check that article thumbnail is visible',
+        ).toBeVisible();
+        await expect(
+            newsPage.secondArticlesContainerLocator,
+            'Check that article thumbnail is visible',
+        ).toBeVisible();
+        
+        await newsPage.secondArticlesContainerLocator.click();
+        await expect(page, 'Check page title').toHaveTitle(
+            articles[0].title + articlePage.pageTitleSuffix,
+        );
+        
+    })
+
+    test('Open directly pined article', async ({ page }) => {
+        const articlePage = new ArticlePage(page);
+
+        await page.goto(pinedArticle.link);
+        await expect(page, 'Check page title').toHaveTitle(
+            pinedArticle.title + articlePage.pageTitleSuffix,
+        );
+        await expect(page).toHaveURL(process.env.BASE_URL + pinedArticle.link);
+            await expect(
+                articlePage.articleHeaderLocator,
+                'Check that article header is correct',
+            ).toHaveText(pinedArticle.title);
+        
+    })
+    
+    test('Open directly first article', async ({ page }) => {
+        const articlePage = new ArticlePage(page);
+
+        await page.goto(articles[0].link);
+        await expect(page, 'Check page title').toHaveTitle(
+            articles[0].title + articlePage.pageTitleSuffix,
+        );
+        await expect(page).toHaveURL(process.env.BASE_URL + articles[0].link);
+        await expect(
+            articlePage.articleHeaderLocator,
+            'Check that article header is correct',
+        ).toHaveText(articles[0].title);
+
+
+    });
+
+});
