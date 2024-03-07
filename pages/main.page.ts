@@ -45,9 +45,9 @@ export class MainPage {
         this.articlesContainerLocator = page.getByTestId(
             'articles-overview-box-latest',
         );
-        this.articlesThumbnailsLocator = page
-            .getByTestId('articles-overview-box-latest')
-            .locator('div[data-testid^="article-box"]');
+        this.articlesThumbnailsLocator = this.articlesContainerLocator.locator(
+            'div[data-testid^="article-box"]',
+        );
         this.firstArticlesContainerLocator = page.getByTestId('article-box-0');
         this.secondArticlesContainerLocator = page.getByTestId('article-box-1');
 
