@@ -19,9 +19,9 @@ export class TopBarComponent {
     this.subtitleHeaderLocator = page.getByTestId("subtitle-bar");
     this.hotNewsHeaderLocator = page.getByTestId("title-bar");
 
-    this.newsMainMenuLocator = page.getByTestId("navigation-item").nth(0);
-    this.sportMainMenuLocator = page.getByTestId("navigation-item").nth(1);
-    this.peopleMainMenuLocator = page.getByTestId("navigation-item").nth(2);
+    this.newsMainMenuLocator = page.getByTestId('navigation-item-wiadomosci');
+    this.sportMainMenuLocator = page.getByTestId('navigation-item-sport');
+    this.peopleMainMenuLocator = page.getByTestId('navigation-item-sylwetki');
 
     this.subtitleHeaderText =
       "Niezależny tygodnik powiatowy gmin: Cieszków, Krośnice, Milicz";
