@@ -7,10 +7,15 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+
+concurrency:
+  group: "${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+  cancel-in-progress: true
+
 jobs:
   prepare:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON('["ubuntu-latest", "self-hosted"]')[github.repository == 'github/docs-internal'] }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -24,7 +29,7 @@ jobs:
         run: npm install dotenv @playwright/test
   run-staging:
     needs: prepare
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON('["ubuntu-latest", "self-hosted"]')[github.repository == 'github/docs-internal'] }}
     steps:
       - name: Run Playwright tests on stage
         run: npx playwright test
@@ -36,7 +41,7 @@ jobs:
           retention-days: 30
   run-prod:
     needs: prepare
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON('["ubuntu-latest", "self-hosted"]')[github.repository == 'github/docs-internal'] }}
     steps:
       - name: Run Playwright tests on prod
         run: env ENV=Prod npx playwright test
