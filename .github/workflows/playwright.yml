@@ -36,8 +36,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run Playwright tests on stage
-        run: ${{ needs.prepare.outputs.playwright-path }}/npx playwright test
-      - uses: actions/upload-artifact@v3
+        run: ${{ needs.prepare.outputs.playwright-path }} npx playwright test
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
@@ -50,8 +50,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run Playwright tests on prod
-        run: env ENV=Prod ${{ needs.prepare.outputs.playwright-path }}/npx playwright test
-      - uses: actions/upload-artifact@v3
+        run: env ENV=Prod ${{ needs.prepare.outputs.playwright-path }} npx playwright test
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-report
