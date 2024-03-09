@@ -9,13 +9,20 @@ export class MainPage {
     readonly pinedArticleContainerLocator: Locator;
     readonly pinedArticleImgLocator: Locator;
     readonly pinedArticleHeaderLocator: Locator;
-    readonly pinedArticleHeader1Locator: Locator;
     readonly pinedArticleSubHeaderLocator: Locator;
     readonly pinedArticleButtonLocator: Locator;
     readonly articlesContainerLocator: Locator;
     readonly articlesThumbnailsLocator: Locator;
     readonly firstArticlesContainerLocator: Locator;
     readonly secondArticlesContainerLocator: Locator;
+    readonly articleImagesThumbnailsLocator: Locator;
+    readonly articleTitlesThumbnailsLocator: Locator;
+    readonly articleMetaBarThumbnailsLocator: Locator;
+    readonly articleStatisticBarThumbnailsLocator: Locator;
+    readonly articleViewsCounterThumbnailsLocator: Locator;
+    readonly articleCommentsCounterThumbnailsLocator: Locator;
+    readonly articleLikesCounterThumbnailsLocator: Locator;
+    readonly articleDislikeCounterThumbnailsLocator: Locator;
 
     readonly pageTitle: string;
     readonly pinedArticleButtonText: string;
@@ -27,20 +34,17 @@ export class MainPage {
 
         this.pinedArticleContainerLocator =
             page.getByTestId('pinned-article-box');
-        this.pinedArticleImgLocator = page
-            .getByTestId('pinned-article-box')
-            .locator('img');
-        this.pinedArticleHeaderLocator = page.locator(
-            '[data-testid="pinned-article-box"] > div > div:nth-child(2) > div > a:first-child',
+        this.pinedArticleImgLocator =
+            this.pinedArticleContainerLocator.locator('img');
+        this.pinedArticleHeaderLocator = page.getByTestId(
+            'pinned-article-box-title',
         );
-        this.pinedArticleHeader1Locator = page
-            .getByTestId('pinned-article-box')
-            .locator('> div > div:nth-child(2) > div > a:first-child');
-        this.pinedArticleSubHeaderLocator = page.locator(
-            '[data-testid="pinned-article-box"] > div > div:nth-child(2) > div > p',
-        );
-        this.pinedArticleButtonLocator = page.locator(
-            '[data-testid="pinned-article-box"] > div > div:nth-child(2) > div > a:last-child',
+        this.pinedArticleSubHeaderLocator =
+            this.pinedArticleContainerLocator.locator(
+                '> div > div:nth-child(2) > div > p',
+            );
+        this.pinedArticleButtonLocator = page.getByTestId(
+            'pinned-article-box-link',
         );
         this.articlesContainerLocator = page.getByTestId(
             'articles-overview-box-latest',
@@ -48,11 +52,26 @@ export class MainPage {
         this.articlesThumbnailsLocator = this.articlesContainerLocator.locator(
             'div[data-testid^="article-box"]',
         );
+        this.articleImagesThumbnailsLocator =
+            page.getByTestId('article-box-image');
+        this.articleTitlesThumbnailsLocator =
+            page.getByTestId('article-box-title');
+        this.articleMetaBarThumbnailsLocator = page.getByTestId('metadata-bar');
+        this.articleStatisticBarThumbnailsLocator =
+            page.getByTestId('statistic-bar');
+        this.articleViewsCounterThumbnailsLocator =
+            page.getByTestId('views-counter');
+        this.articleCommentsCounterThumbnailsLocator =
+            page.getByTestId('statistic-bar');
+        this.articleLikesCounterThumbnailsLocator =
+            page.getByTestId('likes-counter');
+        this.articleDislikeCounterThumbnailsLocator =
+            page.getByTestId('dislikes-counter');
+
         this.firstArticlesContainerLocator = page.getByTestId('article-box-0');
         this.secondArticlesContainerLocator = page.getByTestId('article-box-1');
 
         this.pinedArticleButtonText = 'Wyświetl artykuł';
-
         this.pageTitle = 'Głos Milicza';
     }
 
@@ -63,9 +82,4 @@ export class MainPage {
     async articleThumbnailsLocator(index: number) {
         return this.articlesThumbnailsLocator.nth(index);
     }
-    
-    
-
-
-
 }

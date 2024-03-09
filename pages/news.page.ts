@@ -12,6 +12,14 @@ export class NewsPage {
     readonly articlesThumbnailsLocator: Locator;
     readonly firstArticlesContainerLocator: Locator;
     readonly secondArticlesContainerLocator: Locator;
+    readonly articleImagesThumbnailsLocator: Locator;
+    readonly articleTitlesThumbnailsLocator: Locator;
+    readonly articleMetaBarThumbnailsLocator: Locator;
+    readonly articleStatisticBarThumbnailsLocator: Locator;
+    readonly articleViewsCounterThumbnailsLocator: Locator;
+    readonly articleCommentsCounterThumbnailsLocator: Locator;
+    readonly articleLikesCounterThumbnailsLocator: Locator;
+    readonly articleDislikeCounterThumbnailsLocator: Locator;
 
     readonly pageTitle: string;
 
@@ -29,6 +37,22 @@ export class NewsPage {
         this.articlesThumbnailsLocator = this.articlesContainerLocator.locator(
             'div[data-testid^="article-box"]',
         );
+        this.articleImagesThumbnailsLocator =
+            page.getByTestId('article-box-image');
+        this.articleTitlesThumbnailsLocator =
+            page.getByTestId('article-box-title');
+        this.articleMetaBarThumbnailsLocator = page.getByTestId('metadata-bar');
+        this.articleStatisticBarThumbnailsLocator =
+            page.getByTestId('statistic-bar');
+        this.articleViewsCounterThumbnailsLocator =
+            page.getByTestId('views-counter');
+        this.articleCommentsCounterThumbnailsLocator =
+            page.getByTestId('statistic-bar');
+        this.articleLikesCounterThumbnailsLocator =
+            page.getByTestId('likes-counter');
+        this.articleDislikeCounterThumbnailsLocator =
+            page.getByTestId('dislikes-counter');
+
         this.firstArticlesContainerLocator = page.getByTestId('article-box-0');
         this.secondArticlesContainerLocator = page.getByTestId('article-box-1');
 
