@@ -20,6 +20,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
   test-stage:
+    needs: prepare-env
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:  
@@ -32,6 +33,7 @@ jobs:
         path: playwright-report/
         retention-days: 30
   test-prod:
+    needs: prepare-env
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:  
