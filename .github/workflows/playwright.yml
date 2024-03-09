@@ -7,7 +7,7 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  prepare-env:
+  test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -19,16 +19,7 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-  test-stage:
-    needs: prepare-env
-    timeout-minutes: 10
-    runs-on: ubuntu-latest
-    steps:  
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: 20
-    - name: Run Playwright tests
+    - name: Run Playwright tests on stage
       run: npx playwright test
     - uses: actions/upload-artifact@v3
       if: always()
@@ -36,13 +27,8 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
-  test-prod:
-    needs: prepare-env
-    timeout-minutes: 10
-    runs-on: ubuntu-latest
-    steps:  
-    - name: Run Playwright tests
-      run: $env:ENV="PROD"; npx playwright test
+    - name: Run Playwright tests on prod
+      run: npx playwright test
     - uses: actions/upload-artifact@v3
       if: always()
       with:
