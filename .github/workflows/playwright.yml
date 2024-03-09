@@ -16,9 +16,11 @@ jobs:
   prepare:
     timeout-minutes: 60
     runs-on: ${{ fromJSON('["ubuntu-latest", "self-hosted"]')[github.repository == 'github/docs-internal'] }}
+    outputs:
+      playwright-path: ${{ steps.install-deps.outputs.playwright-path }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
       - name: Install dependencies
@@ -31,8 +33,10 @@ jobs:
     needs: prepare
     runs-on: ${{ fromJSON('["ubuntu-latest", "self-hosted"]')[github.repository == 'github/docs-internal'] }}
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Run Playwright tests on stage
-        run: npx playwright test
+        run: ${{ needs.prepare.outputs.playwright-path }}/npx playwright test
       - uses: actions/upload-artifact@v3
         if: always()
         with:
@@ -43,8 +47,10 @@ jobs:
     needs: prepare
     runs-on: ${{ fromJSON('["ubuntu-latest", "self-hosted"]')[github.repository == 'github/docs-internal'] }}
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Run Playwright tests on prod
-        run: env ENV=Prod npx playwright test
+        run: env ENV=Prod ${{ needs.prepare.outputs.playwright-path }}/npx playwright test
       - uses: actions/upload-artifact@v3
         if: always()
         with:
