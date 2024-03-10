@@ -16,7 +16,11 @@ jobs:
         node-version: 20
 
     - name: Install dependencies
-      run: npm install
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Install Playwright dotenv
+      run: npm install dotenv @playwright/test
 
   run-tests-1:
     runs-on: ubuntu-latest
