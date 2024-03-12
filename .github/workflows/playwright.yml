@@ -23,7 +23,7 @@ jobs:
       run: npm install dotenv @playwright/test
     - name: Run Playwright tests on stage
       run: npx playwright test
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       if: always()
       with:
         name: playwright-report
