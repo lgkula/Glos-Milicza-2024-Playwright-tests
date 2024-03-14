@@ -45,7 +45,7 @@ export class ArticlePage {
       this.articleStatisticBarLocator.getByTestId("dislikes-counter");
 
     this.articleSubHeaderLocator = this.articleContainerLocator.locator(
-      "> div:nth-child(1) > div:nth-child(3)",
+        '> article > div:nth-child(3) > p',
     );
 
     this.pageTitleSuffix = " | Głos  Milicza";

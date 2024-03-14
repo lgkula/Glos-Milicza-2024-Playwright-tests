@@ -147,7 +147,7 @@ test.describe("Smoke tests", () => {
       ).toBeVisible();
       await expect(
         articlePage.articleSubHeaderLocator,
-        "Check that article header is correct",
+        "Check that article lead is correct",
       ).toHaveText(pinedArticleSubHeader);
 
       await articlePage.mainPageBreadcrumbsContainerLocator.click();
