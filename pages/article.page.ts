@@ -26,11 +26,9 @@ export class ArticlePage {
     this.rightBarComponent = new RightBarComponent(this.page);
 
     this.breadcrumbsContainerLocator = page.getByTestId("breadcrumbs");
-    this.mainPageBreadcrumbsContainerLocator = this.breadcrumbsContainerLocator
-      .locator("a")
-      .nth(0);
+    this.mainPageBreadcrumbsContainerLocator = page.getByTestId("breadcrumb-0");
     this.articleContainerLocator = page.getByTestId("full-article");
-    this.articleHeaderLocator = this.articleContainerLocator.locator("h1");
+    this.articleHeaderLocator = this.articleContainerLocator.locator("h1").nth(0);
     this.articleMetaBarLocator =
       this.articleContainerLocator.getByTestId("metadata-bar");
     this.articleStatisticBarLocator =
@@ -43,10 +41,7 @@ export class ArticlePage {
       this.articleStatisticBarLocator.getByTestId("likes-counter");
     this.articleDislikesCounterLocator =
       this.articleStatisticBarLocator.getByTestId("dislikes-counter");
-
-    this.articleSubHeaderLocator = this.articleContainerLocator.locator(
-        '> article > div:nth-child(3) > p',
-    );
+    this.articleSubHeaderLocator = this.articleContainerLocator.getByTestId('lead');
 
     this.pageTitleSuffix = " | Głos  Milicza";
   }

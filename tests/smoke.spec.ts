@@ -83,12 +83,12 @@ test.describe("Smoke tests", () => {
         "Check that container for articles thumbnails is visible",
       ).toBeVisible();
       await expect(
-        mainPage.firstArticlesContainerLocator,
-        "Check that article thumbnail is visible",
+          mainPage.articlesThumbnailsLocator.nth(0),
+          'Check that first article thumbnail is visible',
       ).toBeVisible();
       await expect(
-        mainPage.secondArticlesContainerLocator,
-        "Check that article thumbnail is visible",
+          mainPage.articlesThumbnailsLocator.nth(1),
+        "Check that second article thumbnail is visible",
       ).toBeVisible();
 
       for (let i = 0; i < 29; i++) {
@@ -188,7 +188,7 @@ test.describe("Smoke tests", () => {
     });
 
     await test.step("Display first article", async () => {
-      await mainPage.firstArticlesContainerLocator.click();
+      await mainPage.articlesThumbnailsLocator.nth(0).click();
       await expect(page, "Check page title").toHaveTitle(
         firstThumbnailArticleHeader + articlePage.pageTitleSuffix,
       );
@@ -213,19 +213,19 @@ test.describe("Smoke tests", () => {
     await expect(page, "Check page title").toHaveTitle(newsPage.pageTitle);
 
     await expect(
-      newsPage.firstArticlesContainerLocator,
-      "Check that article thumbnail is visible",
+        newsPage.articlesThumbnailsLocator.nth(0),
+        'Check that first article thumbnail is visible',
     ).toBeVisible();
     await expect(
-      newsPage.secondArticlesContainerLocator,
-      "Check that article thumbnail is visible",
+        newsPage.articlesThumbnailsLocator.nth(1),
+        'Check that second article thumbnail is visible',
     ).toBeVisible();
 
     const firstArticleTitle = await newsPage.articleTitlesThumbnailsLocator
       .nth(0)
       .innerText();
 
-    await newsPage.firstArticlesContainerLocator.click();
+    await newsPage.articlesThumbnailsLocator.nth(0).click();
     await expect(page, "Check page title").toHaveTitle(
       firstArticleTitle + articlePage.pageTitleSuffix,
     );

@@ -13,8 +13,6 @@ export class MainPage {
   readonly pinedArticleButtonLocator: Locator;
   readonly articlesContainerLocator: Locator;
   readonly articlesThumbnailsLocator: Locator;
-  readonly firstArticlesContainerLocator: Locator;
-  readonly secondArticlesContainerLocator: Locator;
   readonly articleImagesThumbnailsLocator: Locator;
   readonly articleTitlesThumbnailsLocator: Locator;
   readonly articleMetaBarThumbnailsLocator: Locator;
@@ -48,9 +46,7 @@ export class MainPage {
     this.articlesContainerLocator = page.getByTestId(
       "articles-overview-box-latest",
     );
-    this.articlesThumbnailsLocator = this.articlesContainerLocator.locator(
-      'div[data-testid^="article-box"]',
-    );
+    this.articlesThumbnailsLocator = this.articlesContainerLocator.getByTestId('article-box'),
     this.articleImagesThumbnailsLocator = page.getByTestId("article-box-image");
     this.articleTitlesThumbnailsLocator = page.getByTestId("article-box-title");
     this.articleMetaBarThumbnailsLocator = page.getByTestId("metadata-bar");
@@ -64,9 +60,6 @@ export class MainPage {
       page.getByTestId("likes-counter");
     this.articleDislikeCounterThumbnailsLocator =
       page.getByTestId("dislikes-counter");
-
-    this.firstArticlesContainerLocator = page.getByTestId("article-box-0");
-    this.secondArticlesContainerLocator = page.getByTestId("article-box-1");
 
     this.pinedArticleButtonText = "Wyświetl artykuł";
     this.pageTitle = "Głos Milicza";
