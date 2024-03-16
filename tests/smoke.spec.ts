@@ -16,7 +16,7 @@ test.describe("Smoke tests", () => {
     const articlePage = new ArticlePage(page);
     const newsPage = new NewsPage(page);
 
-    console.log(`Start test on ${process.env.ENV} environment`);
+    console.log(`Start smoke test on ${process.env.ENV} environment`);
 
     await test.step("Run app - open main page", async () => {
       await mainPage.openMainPage(page);
@@ -28,11 +28,11 @@ test.describe("Smoke tests", () => {
       ).toBeVisible();
       await expect(
         mainPage.topBarComponent.subtitleHeaderLocator,
-        "Check that subtitle header is visible",
+        "Check that subtitle logo header is visible",
       ).toBeVisible();
       await expect(
         mainPage.topBarComponent.subtitleHeaderLocator,
-        "Check that subtitle header has correct text",
+        "Check that subtitle logo header has correct text",
       ).toHaveText(mainPage.topBarComponent.subtitleHeaderText);
       await expect(
         mainPage.topBarComponent.hotNewsHeaderLocator,

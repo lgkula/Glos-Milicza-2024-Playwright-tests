@@ -86,7 +86,7 @@ jobs:
               run: npx playwright install --with-deps
             
             - name: Run Playwright tests on prod
-              run: env ENV=Prod npx playwright test
+              run: env ENV=Prod npx playwright test runApp
             - uses: actions/upload-artifact@v3
               if: failure()
               with:
